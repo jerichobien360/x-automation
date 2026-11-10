@@ -1,0 +1,21 @@
+name: Docker and n8n check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/docker-n8n.yml"
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check Docker
+        run: docker version
+
+      - name: Run the n8n container
+        run: docker run --rm -e N8N_DIAGNOSTICS_ENABLED=false n8nio/n8n:latest --version
